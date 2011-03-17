@@ -7,8 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		4635AF6613312DB700F8185D /* ThirdViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4635AF6413312DB700F8185D /* ThirdViewController.m */; };
-		4635AF6713312DB700F8185D /* ThirdView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4635AF6513312DB700F8185D /* ThirdView.xib */; };
+		4635AF6613312DB700F8185D /* UsersViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4635AF6413312DB700F8185D /* UsersViewController.m */; };
+		4635AF6713312DB700F8185D /* UsersView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4635AF6513312DB700F8185D /* UsersView.xib */; };
 		4639BF3613309E3D0080EA4D /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4639BF3513309E3D0080EA4D /* UIKit.framework */; };
 		4639BF3813309E3D0080EA4D /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4639BF3713309E3D0080EA4D /* Foundation.framework */; };
 		4639BF3A13309E3D0080EA4D /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4639BF3913309E3D0080EA4D /* CoreGraphics.framework */; };
@@ -16,16 +16,17 @@
 		4639BF4313309E3D0080EA4D /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 4639BF4213309E3D0080EA4D /* main.m */; };
 		4639BF4613309E3D0080EA4D /* My_Kid_Asked_MeAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 4639BF4513309E3D0080EA4D /* My_Kid_Asked_MeAppDelegate.m */; };
 		4639BF4913309E3D0080EA4D /* MainWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4639BF4713309E3D0080EA4D /* MainWindow.xib */; };
-		4639BF4C13309E3D0080EA4D /* FirstViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4639BF4B13309E3D0080EA4D /* FirstViewController.m */; };
-		4639BF4F13309E3D0080EA4D /* SecondViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4639BF4E13309E3D0080EA4D /* SecondViewController.m */; };
-		4639BF5213309E3D0080EA4D /* FirstView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4639BF5013309E3D0080EA4D /* FirstView.xib */; };
-		4639BF5513309E3D0080EA4D /* SecondView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4639BF5313309E3D0080EA4D /* SecondView.xib */; };
+		4639BF4C13309E3D0080EA4D /* QuestionsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4639BF4B13309E3D0080EA4D /* QuestionsViewController.m */; };
+		4639BF4F13309E3D0080EA4D /* AnswersViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4639BF4E13309E3D0080EA4D /* AnswersViewController.m */; };
+		4639BF5213309E3D0080EA4D /* QuestionsView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4639BF5013309E3D0080EA4D /* QuestionsView.xib */; };
+		4639BF5513309E3D0080EA4D /* AnswersView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4639BF5313309E3D0080EA4D /* AnswersView.xib */; };
+		46F9405F133283E0002782F0 /* QuestionsModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 46F9405D133283E0002782F0 /* QuestionsModel.xcdatamodeld */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		4635AF6313312DB700F8185D /* ThirdViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ThirdViewController.h; sourceTree = "<group>"; };
-		4635AF6413312DB700F8185D /* ThirdViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ThirdViewController.m; sourceTree = "<group>"; };
-		4635AF6513312DB700F8185D /* ThirdView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ThirdView.xib; sourceTree = "<group>"; };
+		4635AF6313312DB700F8185D /* UsersViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UsersViewController.h; sourceTree = "<group>"; };
+		4635AF6413312DB700F8185D /* UsersViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UsersViewController.m; sourceTree = "<group>"; };
+		4635AF6513312DB700F8185D /* UsersView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = UsersView.xib; sourceTree = "<group>"; };
 		4639BF3113309E3C0080EA4D /* My Kid Asked Me.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "My Kid Asked Me.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		4639BF3513309E3D0080EA4D /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		4639BF3713309E3D0080EA4D /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -38,11 +39,12 @@
 		4639BF4513309E3D0080EA4D /* My_Kid_Asked_MeAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = My_Kid_Asked_MeAppDelegate.m; sourceTree = "<group>"; };
 		4639BF4813309E3D0080EA4D /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/MainWindow.xib; sourceTree = "<group>"; };
 		4639BF4A13309E3D0080EA4D /* FirstViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FirstViewController.h; sourceTree = "<group>"; };
-		4639BF4B13309E3D0080EA4D /* FirstViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FirstViewController.m; sourceTree = "<group>"; };
-		4639BF4D13309E3D0080EA4D /* SecondViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SecondViewController.h; sourceTree = "<group>"; };
-		4639BF4E13309E3D0080EA4D /* SecondViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SecondViewController.m; sourceTree = "<group>"; };
-		4639BF5113309E3D0080EA4D /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/FirstView.xib; sourceTree = "<group>"; };
-		4639BF5413309E3D0080EA4D /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/SecondView.xib; sourceTree = "<group>"; };
+		4639BF4B13309E3D0080EA4D /* QuestionsViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = QuestionsViewController.m; sourceTree = "<group>"; };
+		4639BF4D13309E3D0080EA4D /* AnswersViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AnswersViewController.h; sourceTree = "<group>"; };
+		4639BF4E13309E3D0080EA4D /* AnswersViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AnswersViewController.m; sourceTree = "<group>"; };
+		4639BF5113309E3D0080EA4D /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/QuestionsView.xib; sourceTree = "<group>"; };
+		4639BF5413309E3D0080EA4D /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/AnswersView.xib; sourceTree = "<group>"; };
+		46F9405E133283E0002782F0 /* QuestionsModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = QuestionsModel.xcdatamodel; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -93,14 +95,15 @@
 				4639BF4513309E3D0080EA4D /* My_Kid_Asked_MeAppDelegate.m */,
 				4639BF4713309E3D0080EA4D /* MainWindow.xib */,
 				4639BF4A13309E3D0080EA4D /* FirstViewController.h */,
-				4639BF4B13309E3D0080EA4D /* FirstViewController.m */,
-				4639BF4D13309E3D0080EA4D /* SecondViewController.h */,
-				4639BF4E13309E3D0080EA4D /* SecondViewController.m */,
-				4635AF6313312DB700F8185D /* ThirdViewController.h */,
-				4635AF6413312DB700F8185D /* ThirdViewController.m */,
-				4635AF6513312DB700F8185D /* ThirdView.xib */,
-				4639BF5013309E3D0080EA4D /* FirstView.xib */,
-				4639BF5313309E3D0080EA4D /* SecondView.xib */,
+				4639BF4B13309E3D0080EA4D /* QuestionsViewController.m */,
+				46F9405D133283E0002782F0 /* QuestionsModel.xcdatamodeld */,
+				4639BF4D13309E3D0080EA4D /* AnswersViewController.h */,
+				4639BF4E13309E3D0080EA4D /* AnswersViewController.m */,
+				4635AF6313312DB700F8185D /* UsersViewController.h */,
+				4635AF6413312DB700F8185D /* UsersViewController.m */,
+				4635AF6513312DB700F8185D /* UsersView.xib */,
+				4639BF5013309E3D0080EA4D /* QuestionsView.xib */,
+				4639BF5313309E3D0080EA4D /* AnswersView.xib */,
 				4639BF3C13309E3D0080EA4D /* Supporting Files */,
 			);
 			path = "My Kid Asked Me";
@@ -166,9 +169,9 @@
 			files = (
 				4639BF4013309E3D0080EA4D /* InfoPlist.strings in Resources */,
 				4639BF4913309E3D0080EA4D /* MainWindow.xib in Resources */,
-				4639BF5213309E3D0080EA4D /* FirstView.xib in Resources */,
-				4639BF5513309E3D0080EA4D /* SecondView.xib in Resources */,
-				4635AF6713312DB700F8185D /* ThirdView.xib in Resources */,
+				4639BF5213309E3D0080EA4D /* QuestionsView.xib in Resources */,
+				4639BF5513309E3D0080EA4D /* AnswersView.xib in Resources */,
+				4635AF6713312DB700F8185D /* UsersView.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -181,9 +184,10 @@
 			files = (
 				4639BF4313309E3D0080EA4D /* main.m in Sources */,
 				4639BF4613309E3D0080EA4D /* My_Kid_Asked_MeAppDelegate.m in Sources */,
-				4639BF4C13309E3D0080EA4D /* FirstViewController.m in Sources */,
-				4639BF4F13309E3D0080EA4D /* SecondViewController.m in Sources */,
-				4635AF6613312DB700F8185D /* ThirdViewController.m in Sources */,
+				4639BF4C13309E3D0080EA4D /* QuestionsViewController.m in Sources */,
+				4639BF4F13309E3D0080EA4D /* AnswersViewController.m in Sources */,
+				4635AF6613312DB700F8185D /* UsersViewController.m in Sources */,
+				46F9405F133283E0002782F0 /* QuestionsModel.xcdatamodeld in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -206,20 +210,20 @@
 			name = MainWindow.xib;
 			sourceTree = "<group>";
 		};
-		4639BF5013309E3D0080EA4D /* FirstView.xib */ = {
+		4639BF5013309E3D0080EA4D /* QuestionsView.xib */ = {
 			isa = PBXVariantGroup;
 			children = (
 				4639BF5113309E3D0080EA4D /* en */,
 			);
-			name = FirstView.xib;
+			name = QuestionsView.xib;
 			sourceTree = "<group>";
 		};
-		4639BF5313309E3D0080EA4D /* SecondView.xib */ = {
+		4639BF5313309E3D0080EA4D /* AnswersView.xib */ = {
 			isa = PBXVariantGroup;
 			children = (
 				4639BF5413309E3D0080EA4D /* en */,
 			);
-			name = SecondView.xib;
+			name = AnswersView.xib;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */
@@ -307,6 +311,19 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		46F9405D133283E0002782F0 /* QuestionsModel.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				46F9405E133283E0002782F0 /* QuestionsModel.xcdatamodel */,
+			);
+			currentVersion = 46F9405E133283E0002782F0 /* QuestionsModel.xcdatamodel */;
+			path = QuestionsModel.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
 	};
 	rootObject = 4639BF2813309E3C0080EA4D /* Project object */;
 }

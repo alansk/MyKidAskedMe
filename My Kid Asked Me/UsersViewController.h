@@ -1,5 +1,5 @@
 //
-//  FirstViewController.h
+//  ThirdViewController.h
 //  My Kid Asked Me
 //
 //  Created by Alan Skerrett on 16/03/2011.
@@ -9,8 +9,8 @@
 #import <UIKit/UIKit.h>
 
 
-@interface QuestionsViewController : UIViewController {
-
+@interface UsersViewController : UIViewController {
+    
 }
 
 @end
