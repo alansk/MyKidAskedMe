@@ -1,23 +1,26 @@
 //
-//  FirstViewController.m
+//  QuestionsViewController.m
 //  My Kid Asked Me
 //
 //  Created by Alan Skerrett on 16/03/2011.
-//  Copyright 2011 __MyCompanyName__. All rights reserved.
+//  Copyright 2011 Propercomfy. All rights reserved.
 //
 
-#import "FirstViewController.h"
+#import "QuestionsViewController.h"
 
 
 @implementation QuestionsViewController
 
-/*
+
 // Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    NSURLConnection *urlConnect = [NSURLConnection alloc];
+    [urlConnect init];
+    
 }
-*/
+
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 {
