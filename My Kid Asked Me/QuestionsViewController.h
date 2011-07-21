@@ -9,8 +9,12 @@
 #import <UIKit/UIKit.h>
 
 
-@interface QuestionsViewController : UIViewController {
-
+@interface QuestionsViewController : UIViewController <UITableViewDataSource, UITableViewDelegate> {
+    IBOutlet UITableView* questionsTable;
+    
+    NSArray* questions;
 }
+
+@property (nonatomic, retain) UITableView* questionsTable;
 
 @end

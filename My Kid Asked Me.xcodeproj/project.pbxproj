@@ -38,7 +38,7 @@
 		4639BF4413309E3D0080EA4D /* My_Kid_Asked_MeAppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = My_Kid_Asked_MeAppDelegate.h; sourceTree = "<group>"; };
 		4639BF4513309E3D0080EA4D /* My_Kid_Asked_MeAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = My_Kid_Asked_MeAppDelegate.m; sourceTree = "<group>"; };
 		4639BF4813309E3D0080EA4D /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/MainWindow.xib; sourceTree = "<group>"; };
-		4639BF4A13309E3D0080EA4D /* QuestionsViewController.h */ = {isa = PBXFileReference; path = QuestionsViewController.h; sourceTree = "<group>"; };
+		4639BF4A13309E3D0080EA4D /* QuestionsViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = QuestionsViewController.h; sourceTree = "<group>"; };
 		4639BF4B13309E3D0080EA4D /* QuestionsViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = QuestionsViewController.m; sourceTree = "<group>"; };
 		4639BF4D13309E3D0080EA4D /* AnswersViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AnswersViewController.h; sourceTree = "<group>"; };
 		4639BF4E13309E3D0080EA4D /* AnswersViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AnswersViewController.m; sourceTree = "<group>"; };

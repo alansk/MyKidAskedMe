@@ -11,13 +11,20 @@
 
 @implementation QuestionsViewController
 
+@synthesize questionsTable;
 
 // Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    NSURLConnection *urlConnect = [NSURLConnection alloc];
-    [urlConnect init];
+    
+    self.questionsTable.dataSource = self;
+    self.questionsTable.delegate = self;
+    
+    //questions = [[NSArray alloc] initWithObjects:@"one",@"two",@"three", nil];
+    
+    //NSURLConnection *urlConnect = [NSURLConnection alloc];
+    //[urlConnect init];
     
 }
 
@@ -51,5 +58,52 @@
 {
     [super dealloc];
 }
+
+#pragma mark - Table view data source
+
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
+{
+    // Return the number of sections.
+    return 1;
+}
+
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+{
+    // Return the number of rows in the section.
+    //return [questions count];
+    return 1;
+}
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    static NSString *CellIdentifier = @"Cell";
+    
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+    if (cell == nil) {
+        cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
+    }
+    
+    // Configure the cell...
+    //cell.textLabel.text = [questions objectAtIndex:indexPath.row];
+    cell.textLabel.text = @"TODO";
+    return cell;
+}
+
+#pragma mark - Table view delegate
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    // Navigation logic may go here. Create and push another view controller.
+    /*
+     <#DetailViewController#> *detailViewController = [[<#DetailViewController#> alloc] initWithNibName:@"<#Nib name#>" bundle:nil];
+     // ...
+     // Pass the selected object to the new view controller.
+     [self.navigationController pushViewController:detailViewController animated:YES];
+     [detailViewController release];
+     */
+    
+    
+}
+
 
 @end
