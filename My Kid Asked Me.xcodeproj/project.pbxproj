@@ -20,6 +20,7 @@
 		4639BF4F13309E3D0080EA4D /* AnswersViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4639BF4E13309E3D0080EA4D /* AnswersViewController.m */; };
 		4639BF5213309E3D0080EA4D /* QuestionsView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4639BF5013309E3D0080EA4D /* QuestionsView.xib */; };
 		4639BF5513309E3D0080EA4D /* AnswersView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4639BF5313309E3D0080EA4D /* AnswersView.xib */; };
+		46E6D77A13E31F13009C17D5 /* XMLReader.m in Sources */ = {isa = PBXBuildFile; fileRef = 46E6D77913E31F13009C17D5 /* XMLReader.m */; };
 		46F9405F133283E0002782F0 /* QuestionsModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 46F9405D133283E0002782F0 /* QuestionsModel.xcdatamodeld */; };
 /* End PBXBuildFile section */
 
@@ -44,6 +45,8 @@
 		4639BF4E13309E3D0080EA4D /* AnswersViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AnswersViewController.m; sourceTree = "<group>"; };
 		4639BF5113309E3D0080EA4D /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/QuestionsView.xib; sourceTree = "<group>"; };
 		4639BF5413309E3D0080EA4D /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/AnswersView.xib; sourceTree = "<group>"; };
+		46E6D77813E31F13009C17D5 /* XMLReader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XMLReader.h; sourceTree = "<group>"; };
+		46E6D77913E31F13009C17D5 /* XMLReader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XMLReader.m; sourceTree = "<group>"; };
 		46F9405E133283E0002782F0 /* QuestionsModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = QuestionsModel.xcdatamodel; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -91,6 +94,7 @@
 		4639BF3B13309E3D0080EA4D /* My Kid Asked Me */ = {
 			isa = PBXGroup;
 			children = (
+				46E6D77613E31EE6009C17D5 /* XMLReader */,
 				4639BF4413309E3D0080EA4D /* My_Kid_Asked_MeAppDelegate.h */,
 				4639BF4513309E3D0080EA4D /* My_Kid_Asked_MeAppDelegate.m */,
 				4639BF4713309E3D0080EA4D /* MainWindow.xib */,
@@ -118,6 +122,15 @@
 				4639BF4213309E3D0080EA4D /* main.m */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		46E6D77613E31EE6009C17D5 /* XMLReader */ = {
+			isa = PBXGroup;
+			children = (
+				46E6D77813E31F13009C17D5 /* XMLReader.h */,
+				46E6D77913E31F13009C17D5 /* XMLReader.m */,
+			);
+			name = XMLReader;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -188,6 +201,7 @@
 				4639BF4F13309E3D0080EA4D /* AnswersViewController.m in Sources */,
 				4635AF6613312DB700F8185D /* UsersViewController.m in Sources */,
 				46F9405F133283E0002782F0 /* QuestionsModel.xcdatamodeld in Sources */,
+				46E6D77A13E31F13009C17D5 /* XMLReader.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

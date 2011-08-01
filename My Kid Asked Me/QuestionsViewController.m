@@ -7,6 +7,7 @@
 //
 
 #import "QuestionsViewController.h"
+#import "XMLReader.h"
 
 
 @implementation QuestionsViewController
@@ -21,10 +22,19 @@
     self.questionsTable.dataSource = self;
     self.questionsTable.delegate = self;
     
-    //questions = [[NSArray alloc] initWithObjects:@"one",@"two",@"three", nil];
+    // Grab some XML data from Twitter
+    NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:@"http://local.kidasked.me/questions.xml"]];
     
-    //NSURLConnection *urlConnect = [NSURLConnection alloc];
-    //[urlConnect init];
+    NSError *error = nil;
+    NSURLResponse *response = nil;
+    
+    // Synchronous isn't ideal, but simplifies the code for the Demo
+    NSData *xmlData = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
+    
+    // Parse the XML Data into an NSDictionary
+    questions = [[XMLReader dictionaryForXMLData:xmlData error:&error] retain];
+    
+    [self.questionsTable reloadData];
     
 }
 
@@ -56,6 +66,9 @@
 
 - (void)dealloc
 {
+    [questionsTable release];
+    [questions release];
+    
     [super dealloc];
 }
 
@@ -70,22 +83,31 @@
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     // Return the number of rows in the section.
-    //return [questions count];
-    return 1;
+    return [[questions retrieveForPath:@"questions.question"] count];
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    static NSString *CellIdentifier = @"Cell";
     
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
-    if (cell == nil) {
-        cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
+    static NSString *cellIdentifier = @"QuestionCell";
+    
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier];
+    
+    if (cell == nil)
+    {
+        cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:cellIdentifier] autorelease];
+        cell.textLabel.font = [UIFont systemFontOfSize:12];
+        cell.textLabel.numberOfLines = 2;
+        cell.detailTextLabel.font = [UIFont systemFontOfSize:10];
+        cell.selectionStyle = UITableViewCellEditingStyleNone;
     }
     
-    // Configure the cell...
-    //cell.textLabel.text = [questions objectAtIndex:indexPath.row];
-    cell.textLabel.text = @"TODO";
+    // Get the 'status' for the relevant row
+    NSDictionary *question = [questions retrieveForPath:[NSString stringWithFormat:@"questions.question.%d", indexPath.row]];
+    
+    cell.textLabel.text = [question objectForKey:@"@question"];
+    cell.detailTextLabel.text = [NSString stringWithFormat:@"%@ answers", [question objectForKey:@"@explanation_count"]];
+    
     return cell;
 }
 

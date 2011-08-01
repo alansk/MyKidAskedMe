@@ -12,7 +12,7 @@
 @interface QuestionsViewController : UIViewController <UITableViewDataSource, UITableViewDelegate> {
     IBOutlet UITableView* questionsTable;
     
-    NSArray* questions;
+    NSDictionary* questions;
 }
 
 @property (nonatomic, retain) UITableView* questionsTable;
