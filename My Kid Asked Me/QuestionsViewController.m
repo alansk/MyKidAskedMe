@@ -8,6 +8,7 @@
 
 #import "QuestionsViewController.h"
 #import "XMLReader.h"
+#import "QuestionDetailViewController.h"
 
 
 @implementation QuestionsViewController
@@ -111,20 +112,26 @@
     return cell;
 }
 
+- (UITableViewCellAccessoryType)tableView:(UITableView *)tableView accessoryTypeForRowWithIndexPath:(NSIndexPath *)indexPath  {
+    return UITableViewCellAccessoryDisclosureIndicator;
+}
+
+
 #pragma mark - Table view delegate
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     // Navigation logic may go here. Create and push another view controller.
-    /*
-     <#DetailViewController#> *detailViewController = [[<#DetailViewController#> alloc] initWithNibName:@"<#Nib name#>" bundle:nil];
-     // ...
-     // Pass the selected object to the new view controller.
-     [self.navigationController pushViewController:detailViewController animated:YES];
-     [detailViewController release];
-     */
     
+    QuestionDetailViewController* detailViewController = [[QuestionDetailViewController alloc] initWithNibName:@"QuestionDetailView" bundle:[NSBundle mainBundle]];
     
+    // Get the 'status' for the relevant row
+    NSDictionary *question = [questions retrieveForPath:[NSString stringWithFormat:@"questions.question.%d", indexPath.row]];
+
+    detailViewController.question = question;
+    
+    [self.navigationController pushViewController:detailViewController animated:YES];
+    [detailViewController release];
 }
 
 

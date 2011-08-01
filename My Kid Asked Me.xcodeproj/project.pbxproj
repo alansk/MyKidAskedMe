@@ -21,6 +21,8 @@
 		4639BF5213309E3D0080EA4D /* QuestionsView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4639BF5013309E3D0080EA4D /* QuestionsView.xib */; };
 		4639BF5513309E3D0080EA4D /* AnswersView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4639BF5313309E3D0080EA4D /* AnswersView.xib */; };
 		46E6D77A13E31F13009C17D5 /* XMLReader.m in Sources */ = {isa = PBXBuildFile; fileRef = 46E6D77913E31F13009C17D5 /* XMLReader.m */; };
+		46E6D77C13E688DE009C17D5 /* QuestionDetailView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 46E6D77B13E688DE009C17D5 /* QuestionDetailView.xib */; };
+		46E6D77F13E68955009C17D5 /* QuestionDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 46E6D77E13E68955009C17D5 /* QuestionDetailViewController.m */; };
 		46F9405F133283E0002782F0 /* QuestionsModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 46F9405D133283E0002782F0 /* QuestionsModel.xcdatamodeld */; };
 /* End PBXBuildFile section */
 
@@ -47,6 +49,9 @@
 		4639BF5413309E3D0080EA4D /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/AnswersView.xib; sourceTree = "<group>"; };
 		46E6D77813E31F13009C17D5 /* XMLReader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XMLReader.h; sourceTree = "<group>"; };
 		46E6D77913E31F13009C17D5 /* XMLReader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XMLReader.m; sourceTree = "<group>"; };
+		46E6D77B13E688DE009C17D5 /* QuestionDetailView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = QuestionDetailView.xib; sourceTree = "<group>"; };
+		46E6D77D13E68955009C17D5 /* QuestionDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QuestionDetailViewController.h; sourceTree = "<group>"; };
+		46E6D77E13E68955009C17D5 /* QuestionDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QuestionDetailViewController.m; sourceTree = "<group>"; };
 		46F9405E133283E0002782F0 /* QuestionsModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = QuestionsModel.xcdatamodel; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -100,6 +105,9 @@
 				4639BF4713309E3D0080EA4D /* MainWindow.xib */,
 				4639BF4A13309E3D0080EA4D /* QuestionsViewController.h */,
 				4639BF4B13309E3D0080EA4D /* QuestionsViewController.m */,
+				46E6D77B13E688DE009C17D5 /* QuestionDetailView.xib */,
+				46E6D77D13E68955009C17D5 /* QuestionDetailViewController.h */,
+				46E6D77E13E68955009C17D5 /* QuestionDetailViewController.m */,
 				46F9405D133283E0002782F0 /* QuestionsModel.xcdatamodeld */,
 				4639BF4D13309E3D0080EA4D /* AnswersViewController.h */,
 				4639BF4E13309E3D0080EA4D /* AnswersViewController.m */,
@@ -185,6 +193,7 @@
 				4639BF5213309E3D0080EA4D /* QuestionsView.xib in Resources */,
 				4639BF5513309E3D0080EA4D /* AnswersView.xib in Resources */,
 				4635AF6713312DB700F8185D /* UsersView.xib in Resources */,
+				46E6D77C13E688DE009C17D5 /* QuestionDetailView.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -202,6 +211,7 @@
 				4635AF6613312DB700F8185D /* UsersViewController.m in Sources */,
 				46F9405F133283E0002782F0 /* QuestionsModel.xcdatamodeld in Sources */,
 				46E6D77A13E31F13009C17D5 /* XMLReader.m in Sources */,
+				46E6D77F13E68955009C17D5 /* QuestionDetailViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
