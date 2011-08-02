@@ -105,7 +105,7 @@
         cell.textLabel.numberOfLines = 0;
         cell.textLabel.lineBreakMode = UILineBreakModeWordWrap;
         cell.detailTextLabel.font = [UIFont systemFontOfSize:12];
-        cell.selectionStyle = UITableViewCellEditingStyleNone;
+        cell.selectionStyle = UITableViewCellSelectionStyleNone;
     }
     
     // Get the 'status' for the relevant row
