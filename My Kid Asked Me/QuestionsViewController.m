@@ -97,10 +97,13 @@
     if (cell == nil)
     {
         cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:cellIdentifier] autorelease];
-        cell.textLabel.font = [UIFont systemFontOfSize:12];
-        cell.textLabel.numberOfLines = 2;
-        cell.detailTextLabel.font = [UIFont systemFontOfSize:10];
-        cell.selectionStyle = UITableViewCellEditingStyleNone;
+        cell.textLabel.font = [UIFont systemFontOfSize:14];
+        cell.detailTextLabel.font = [UIFont systemFontOfSize:12];
+        cell.selectionStyle = UITableViewCellSelectionStyleNone;
+        cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+        
+        cell.textLabel.lineBreakMode = UILineBreakModeWordWrap;
+        cell.textLabel.numberOfLines = 0;
     }
     
     // Get the 'status' for the relevant row
@@ -112,10 +115,17 @@
     return cell;
 }
 
-- (UITableViewCellAccessoryType)tableView:(UITableView *)tableView accessoryTypeForRowWithIndexPath:(NSIndexPath *)indexPath  {
-    return UITableViewCellAccessoryDisclosureIndicator;
-}
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
 
+    // Get the 'status' for the relevant row
+    NSDictionary *question = [questions retrieveForPath:[NSString stringWithFormat:@"questions.question.%d", indexPath.row]];
+    NSString* cellText = [question objectForKey:@"@question"];
+    UIFont* cellFont = [UIFont systemFontOfSize:14];
+    CGSize maxSize = CGSizeMake(280.0f, MAXFLOAT);
+    CGSize cellSize = [cellText sizeWithFont:cellFont constrainedToSize:maxSize lineBreakMode:UILineBreakModeWordWrap];
+    
+    return cellSize.height + 30;
+}
 
 #pragma mark - Table view delegate
 

@@ -8,12 +8,13 @@
 
 #import <UIKit/UIKit.h>
 
-@interface QuestionDetailViewController : UIViewController {
-    IBOutlet UILabel* testLabel;
+@interface QuestionDetailViewController : UIViewController <UITableViewDataSource, UITableViewDelegate> {
+    IBOutlet UITableView* answers;
     
     NSDictionary* question;
 }
 
 @property (nonatomic, retain) NSDictionary* question;
+@property (nonatomic, retain) UITableView* answers;
 
 @end
