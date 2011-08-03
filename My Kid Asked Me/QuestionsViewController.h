@@ -9,12 +9,16 @@
 #import <UIKit/UIKit.h>
 
 
-@interface QuestionsViewController : UIViewController <UITableViewDataSource, UITableViewDelegate> {
+@interface QuestionsViewController : UITableViewController <UITableViewDataSource, UITableViewDelegate> {
     IBOutlet UITableView* questionsTable;
     
     NSDictionary* questions;
+
 }
 
 @property (nonatomic, retain) UITableView* questionsTable;
+@property (nonatomic, retain) NSDictionary* questions;
+
+- (void)reloadData;
 
 @end

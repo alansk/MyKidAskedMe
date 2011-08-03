@@ -14,16 +14,25 @@
 @implementation QuestionsViewController
 
 @synthesize questionsTable;
+@synthesize questions;
 
 // Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    
+
+    self.title = NSLocalizedString(@"Questions", @"All Kids' Questions");
     self.questionsTable.dataSource = self;
     self.questionsTable.delegate = self;
     
-    // Grab some XML data from Twitter
+    [self reloadData];
+    
+    
+}
+
+- (void)reloadData
+{
+    // Grab some XML data 
     NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:@"http://local.kidasked.me/questions.xml"]];
     
     NSError *error = nil;
@@ -36,7 +45,6 @@
     questions = [[XMLReader dictionaryForXMLData:xmlData error:&error] retain];
     
     [self.questionsTable reloadData];
-    
 }
 
 
@@ -110,7 +118,8 @@
     NSDictionary *question = [questions retrieveForPath:[NSString stringWithFormat:@"questions.question.%d", indexPath.row]];
     
     cell.textLabel.text = [question objectForKey:@"@question"];
-    cell.detailTextLabel.text = [NSString stringWithFormat:@"%@ answers", [question objectForKey:@"@explanation_count"]];
+    cell.detailTextLabel.text = [NSString stringWithFormat:@"%@ answers", 
+                                 [question objectForKey:@"@explanation_count"]];
     
     return cell;
 }
@@ -133,15 +142,18 @@
 {
     // Navigation logic may go here. Create and push another view controller.
     
-    QuestionDetailViewController* detailViewController = [[QuestionDetailViewController alloc] initWithNibName:@"QuestionDetailView" bundle:[NSBundle mainBundle]];
+    QuestionDetailViewController *qDetailView = [[QuestionDetailViewController alloc] initWithNibName:@"QuestionDetailView" bundle:nil];
+       
     
     // Get the 'status' for the relevant row
     NSDictionary *question = [questions retrieveForPath:[NSString stringWithFormat:@"questions.question.%d", indexPath.row]];
 
-    detailViewController.question = question;
+    qDetailView.question = question;
+    qDetailView.title = @"Answers";
     
-    [self.navigationController pushViewController:detailViewController animated:YES];
-    [detailViewController release];
+    [self.navigationController pushViewController:qDetailView animated:YES];
+    
+    [qDetailView release];
 }
 
 

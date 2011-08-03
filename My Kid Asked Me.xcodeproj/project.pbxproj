@@ -20,6 +20,7 @@
 		4639BF4F13309E3D0080EA4D /* AnswersViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4639BF4E13309E3D0080EA4D /* AnswersViewController.m */; };
 		4639BF5213309E3D0080EA4D /* QuestionsView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4639BF5013309E3D0080EA4D /* QuestionsView.xib */; };
 		4639BF5513309E3D0080EA4D /* AnswersView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4639BF5313309E3D0080EA4D /* AnswersView.xib */; };
+		465D081B13E94E67006A3FBC /* QuestionsNavController.m in Sources */ = {isa = PBXBuildFile; fileRef = 465D081A13E94E67006A3FBC /* QuestionsNavController.m */; };
 		46E6D77A13E31F13009C17D5 /* XMLReader.m in Sources */ = {isa = PBXBuildFile; fileRef = 46E6D77913E31F13009C17D5 /* XMLReader.m */; };
 		46E6D77C13E688DE009C17D5 /* QuestionDetailView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 46E6D77B13E688DE009C17D5 /* QuestionDetailView.xib */; };
 		46E6D77F13E68955009C17D5 /* QuestionDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 46E6D77E13E68955009C17D5 /* QuestionDetailViewController.m */; };
@@ -47,6 +48,8 @@
 		4639BF4E13309E3D0080EA4D /* AnswersViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AnswersViewController.m; sourceTree = "<group>"; };
 		4639BF5113309E3D0080EA4D /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/QuestionsView.xib; sourceTree = "<group>"; };
 		4639BF5413309E3D0080EA4D /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/AnswersView.xib; sourceTree = "<group>"; };
+		465D081913E94E67006A3FBC /* QuestionsNavController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QuestionsNavController.h; sourceTree = "<group>"; };
+		465D081A13E94E67006A3FBC /* QuestionsNavController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QuestionsNavController.m; sourceTree = "<group>"; };
 		46E6D77813E31F13009C17D5 /* XMLReader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XMLReader.h; sourceTree = "<group>"; };
 		46E6D77913E31F13009C17D5 /* XMLReader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XMLReader.m; sourceTree = "<group>"; };
 		46E6D77B13E688DE009C17D5 /* QuestionDetailView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = QuestionDetailView.xib; sourceTree = "<group>"; };
@@ -115,6 +118,8 @@
 				4635AF6413312DB700F8185D /* UsersViewController.m */,
 				4635AF6513312DB700F8185D /* UsersView.xib */,
 				4639BF5013309E3D0080EA4D /* QuestionsView.xib */,
+				465D081913E94E67006A3FBC /* QuestionsNavController.h */,
+				465D081A13E94E67006A3FBC /* QuestionsNavController.m */,
 				4639BF5313309E3D0080EA4D /* AnswersView.xib */,
 				4639BF3C13309E3D0080EA4D /* Supporting Files */,
 			);
@@ -212,6 +217,7 @@
 				46F9405F133283E0002782F0 /* QuestionsModel.xcdatamodeld in Sources */,
 				46E6D77A13E31F13009C17D5 /* XMLReader.m in Sources */,
 				46E6D77F13E68955009C17D5 /* QuestionDetailViewController.m in Sources */,
+				465D081B13E94E67006A3FBC /* QuestionsNavController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

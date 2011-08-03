@@ -81,8 +81,15 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    // Return the number of rows in the section.
-    return [[question retrieveForPath:@"explanation"] count];
+    
+    NSDictionary* explanations = [question retrieveForPath:@"explanation"];
+    if([explanations respondsToSelector:@selector(allKeys)])
+    {
+        return 1;
+    }else
+    {
+        return [explanations count];
+    }
 }
 
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
@@ -111,8 +118,18 @@
     // Get the 'status' for the relevant row
     NSDictionary *answer = [question retrieveForPath:[NSString stringWithFormat:@"explanation.%d", indexPath.row]];
     
+    // maybe there's just one
+    if(answer == nil)
+    {
+        answer = [question retrieveForPath:@"explanation"];
+    }
+    
+    NSDictionary* user = [answer retrieveForPath:@"user"];
+    
     cell.textLabel.text = [answer objectForKey:@"@answer"];
-    cell.detailTextLabel.text = [NSString stringWithFormat:@"Score: %@", [answer objectForKey:@"@score"]];
+    cell.detailTextLabel.text = [NSString stringWithFormat:@"Score: %@   by %@", 
+                                 [answer objectForKey:@"@score"],
+                                 [user objectForKey:@"@username"]];
     
     return cell;
 }
@@ -121,10 +138,18 @@
     
     // Get the 'status' for the relevant row
     NSDictionary *answer = [question retrieveForPath:[NSString stringWithFormat:@"explanation.%d", indexPath.row]];
+    
+    // maybe there's just one
+    if(answer == nil)
+    {
+        answer = [question retrieveForPath:@"explanation"];
+    }
+    
     NSString* cellText = [answer objectForKey:@"@answer"];
     UIFont* cellFont = [UIFont systemFontOfSize:14];
     CGSize maxSize = CGSizeMake(280.0f, MAXFLOAT);
     CGSize cellSize = [cellText sizeWithFont:cellFont constrainedToSize:maxSize lineBreakMode:UILineBreakModeWordWrap];
+    
     
     return cellSize.height + 30;
 }

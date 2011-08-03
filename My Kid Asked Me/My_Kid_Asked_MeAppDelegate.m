@@ -15,6 +15,8 @@
 
 @synthesize tabBarController=_tabBarController;
 
+@synthesize qNavController=_qNavController;
+
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     // Override point for customization after application launch.
@@ -68,6 +70,7 @@
 {
     [_window release];
     [_tabBarController release];
+    [_qNavController release];
     [super dealloc];
 }
 

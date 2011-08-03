@@ -7,13 +7,16 @@
 //
 
 #import <UIKit/UIKit.h>
+@class QuestionsNavController;
 
 @interface My_Kid_Asked_MeAppDelegate : NSObject <UIApplicationDelegate, UITabBarControllerDelegate> {
 
+    IBOutlet QuestionsNavController *qNavController;
 }
 
 @property (nonatomic, retain) IBOutlet UIWindow *window;
 
 @property (nonatomic, retain) IBOutlet UITabBarController *tabBarController;
+@property (nonatomic, retain) IBOutlet QuestionsNavController *qNavController;
 
 @end
