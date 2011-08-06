@@ -46,9 +46,19 @@
 {
     [super viewDidLoad];
     
-    //testLabel.text = [question objectForKey:@"@question"];
+    UIBarButtonItem *addButton = [[UIBarButtonItem alloc] 
+                                     initWithBarButtonSystemItem:UIBarButtonSystemItemAdd 
+                                     target:self 
+                                     action:@selector(addClick:)];
+    
+    self.navigationItem.rightBarButtonItem = addButton;
+    [addButton release];
 }
 
+- (void) addClick:(id)sender
+{
+    
+}
 
 - (void)dealloc
 {
@@ -63,6 +73,12 @@
     [super viewDidUnload];
     // Release any retained subviews of the main view.
     // e.g. self.myOutlet = nil;
+}
+
+- (void) viewWillDisappear:(BOOL)animated
+{    
+    [super viewWillDisappear:animated];
+    [self.navigationController popToRootViewControllerAnimated:YES];
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation

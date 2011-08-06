@@ -9,6 +9,7 @@
 #import "QuestionsViewController.h"
 #import "XMLReader.h"
 #import "QuestionDetailViewController.h"
+#import "QuestionSearchViewController.h"
 
 
 @implementation QuestionsViewController
@@ -22,18 +23,81 @@
     [super viewDidLoad];
 
     self.title = NSLocalizedString(@"Questions", @"All Kids' Questions");
-    self.questionsTable.dataSource = self;
-    self.questionsTable.delegate = self;
+  
+    // button bar
+    UIToolbar* tools = [[UIToolbar alloc] initWithFrame:CGRectMake(0, 0, 88, 44.01)];
+    tools.translucent = true;
+    tools.tintColor = self.navigationController.navigationBar.tintColor;
+    NSMutableArray* buttons = [[NSMutableArray alloc] initWithCapacity:2];
+    
+    // buttons
+    UIBarButtonItem *addButton = [[UIBarButtonItem alloc] 
+                                     initWithBarButtonSystemItem:UIBarButtonSystemItemAdd                                          
+                                     target:self 
+                                     action:@selector(addClick:)];
+    addButton.style = UIBarButtonItemStyleBordered;
+    [buttons addObject:addButton];
+    [addButton release];
+    
+    // spacer
+    UIBarButtonItem* spacer = [[UIBarButtonItem alloc] 
+                               initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace                                         
+                               target:nil
+                               action:nil];
+    [buttons addObject:spacer];
+    [spacer release];
+    
+    // buttons
+    UIBarButtonItem *reloadButton = [[UIBarButtonItem alloc] 
+                                   initWithBarButtonSystemItem:UIBarButtonSystemItemRefresh                                           
+                                   target:self 
+                                     action:@selector(reloadClick:)];
+    reloadButton.style = UIBarButtonItemStyleBordered;
+    [buttons addObject:reloadButton];
+    [reloadButton release];
+    
+    [tools setItems:buttons animated:NO];
+    [buttons release];
+    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:tools];
+    [tools release];
+    
+    // search button
+    UIBarButtonItem *searchButton = [[UIBarButtonItem alloc] 
+                                     initWithBarButtonSystemItem:UIBarButtonSystemItemSearch                                          
+                                     target:self 
+                                     action:@selector(searchClick:)];
+    searchButton.style = UIBarButtonItemStyleBordered;
+     self.navigationItem.leftBarButtonItem = searchButton;
+    [searchButton release];
     
     [self reloadData];
-    
-    
 }
+
+- (void) reloadClick:(id)sender
+{
+     [self reloadData];
+}
+
+- (void) addClick:(id)sender
+{
+
+}
+
+- (void) searchClick:(id)sender
+{
+    QuestionSearchViewController *qSearchView = [[QuestionSearchViewController alloc] initWithNibName:@"QuestionSearchView" bundle:nil];
+    
+    [self.navigationController pushViewController:qSearchView animated:YES];
+    
+    [qSearchView release];
+
+}
+
 
 - (void)reloadData
 {
     // Grab some XML data 
-    NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:@"http://local.kidasked.me/questions.xml"]];
+    NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:@"http://local.kidasked.me/questions/index/page:1/sort:created/direction:asc/.xml"]];
     
     NSError *error = nil;
     NSURLResponse *response = nil;
@@ -81,6 +145,9 @@
     [super dealloc];
 }
 
+
+
+
 #pragma mark - Table view data source
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
@@ -92,7 +159,7 @@
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     // Return the number of rows in the section.
-    return [[questions retrieveForPath:@"questions.question"] count];
+    return [[questions retrieveForPath:@"questions.question"] count] + 1;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -116,10 +183,16 @@
     
     // Get the 'status' for the relevant row
     NSDictionary *question = [questions retrieveForPath:[NSString stringWithFormat:@"questions.question.%d", indexPath.row]];
-    
-    cell.textLabel.text = [question objectForKey:@"@question"];
-    cell.detailTextLabel.text = [NSString stringWithFormat:@"%@ answers", 
+    if(question == nil)
+    {
+        cell.textLabel.text = @"Load more...";
+        cell.accessoryType = UITableViewCellAccessoryNone;
+    }else
+    {
+        cell.textLabel.text = [question objectForKey:@"@question"];
+        cell.detailTextLabel.text = [NSString stringWithFormat:@"%@ answers", 
                                  [question objectForKey:@"@explanation_count"]];
+    }
     
     return cell;
 }
@@ -136,6 +209,8 @@
     return cellSize.height + 30;
 }
 
+
+
 #pragma mark - Table view delegate
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
@@ -148,12 +223,15 @@
     // Get the 'status' for the relevant row
     NSDictionary *question = [questions retrieveForPath:[NSString stringWithFormat:@"questions.question.%d", indexPath.row]];
 
-    qDetailView.question = question;
-    qDetailView.title = @"Answers";
+    if(question != nil)
+    {
+        qDetailView.question = question;
+        qDetailView.title = @"Answers";
     
-    [self.navigationController pushViewController:qDetailView animated:YES];
+        [self.navigationController pushViewController:qDetailView animated:YES];
     
-    [qDetailView release];
+        [qDetailView release];
+    }
 }
 
 
