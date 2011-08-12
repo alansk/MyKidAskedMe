@@ -9,8 +9,12 @@
 #import <UIKit/UIKit.h>
 
 
-@interface AnswersViewController : UIViewController {
+@interface AnswersViewController : UIViewController  <UITableViewDataSource> {
+    IBOutlet UITableView* answers;
     
+    NSDictionary* question;
 }
 
+@property (nonatomic, retain) NSDictionary* question;
+@property (nonatomic, retain) UITableView* answers;
 @end

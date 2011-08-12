@@ -14,7 +14,7 @@
     IBOutlet UITableView* questionsTable;
     
     NSDictionary* questions;
-    NSDictionary* searchQuestions;
+    int questionCount;
 
 }
 

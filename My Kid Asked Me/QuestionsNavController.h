@@ -8,6 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface QuestionsNavController : UINavigationController
+@interface QuestionsNavController : UINavigationController <UINavigationControllerDelegate>
 
 @end

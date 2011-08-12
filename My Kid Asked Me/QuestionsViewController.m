@@ -86,6 +86,7 @@
 - (void) searchClick:(id)sender
 {
     QuestionSearchViewController *qSearchView = [[QuestionSearchViewController alloc] initWithNibName:@"QuestionSearchView" bundle:nil];
+    qSearchView.title = @"Search";
     
     [self.navigationController pushViewController:qSearchView animated:YES];
     
@@ -97,7 +98,7 @@
 - (void)reloadData
 {
     // Grab some XML data 
-    NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:@"http://local.kidasked.me/questions/index/page:1/sort:created/direction:asc/.xml"]];
+    NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:@"http://local.kidasked.me/questions/index/page:2/sort:created/direction:asc/.xml"]];
     
     NSError *error = nil;
     NSURLResponse *response = nil;
@@ -108,6 +109,15 @@
     // Parse the XML Data into an NSDictionary
     questions = [[XMLReader dictionaryForXMLData:xmlData error:&error] retain];
     
+    id questionArray = [questions retrieveForPath:@"questions.question"];
+    // Return the number of rows in the section.
+    if([questionArray respondsToSelector:@selector(allKeys)])
+    {
+        questionCount = 1;
+    }else
+    {
+        questionCount = [questionArray count];
+    }
     [self.questionsTable reloadData];
 }
 
@@ -158,8 +168,7 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    // Return the number of rows in the section.
-    return [[questions retrieveForPath:@"questions.question"] count] + 1;
+    return questionCount;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -183,16 +192,31 @@
     
     // Get the 'status' for the relevant row
     NSDictionary *question = [questions retrieveForPath:[NSString stringWithFormat:@"questions.question.%d", indexPath.row]];
-    if(question == nil)
+    
+    NSString* questionText = @"";
+    NSString* questionDetailText = @"";
+    
+    /*if(question == nil && indexPath.row == questionCount)
     {
-        cell.textLabel.text = @"Load more...";
+        questionText = @"Load more...";
         cell.accessoryType = UITableViewCellAccessoryNone;
-    }else
+            
+    }*/
+    
+    if(question == nil && indexPath.row < questionCount)
     {
-        cell.textLabel.text = [question objectForKey:@"@question"];
-        cell.detailTextLabel.text = [NSString stringWithFormat:@"%@ answers", 
-                                 [question objectForKey:@"@explanation_count"]];
+        question = [questions retrieveForPath:@"questions.question"];
     }
+    
+    if(question != nil)
+    {
+        questionText = [question objectForKey:@"@question"];
+        questionDetailText = [NSString stringWithFormat:@"%@ answers", 
+                              [question objectForKey:@"@explanation_count"]];
+    }
+
+    cell.textLabel.text = questionText;
+    cell.detailTextLabel.text = questionDetailText;
     
     return cell;
 }
@@ -201,6 +225,10 @@
 
     // Get the 'status' for the relevant row
     NSDictionary *question = [questions retrieveForPath:[NSString stringWithFormat:@"questions.question.%d", indexPath.row]];
+    if(question == nil && indexPath.row < questionCount)
+    {
+        question = [questions retrieveForPath:@"questions.question"];
+    }
     NSString* cellText = [question objectForKey:@"@question"];
     UIFont* cellFont = [UIFont systemFontOfSize:14];
     CGSize maxSize = CGSizeMake(280.0f, MAXFLOAT);
@@ -223,6 +251,11 @@
     // Get the 'status' for the relevant row
     NSDictionary *question = [questions retrieveForPath:[NSString stringWithFormat:@"questions.question.%d", indexPath.row]];
 
+    if(question == nil && indexPath.row < questionCount)
+    {
+        question = [questions retrieveForPath:@"questions.question"];
+    }
+    
     if(question != nil)
     {
         qDetailView.question = question;

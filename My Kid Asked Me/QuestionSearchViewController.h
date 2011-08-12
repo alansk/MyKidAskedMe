@@ -14,7 +14,8 @@
     IBOutlet UISearchBar* searchBar;
     
     NSDictionary* questions;
-    
+    NSDictionary* question;
+    int questionCount;
     BOOL searching;
     BOOL letUserSelectRow;
     
@@ -23,12 +24,12 @@
 @property (nonatomic, retain) UITableView* questionsTable;
 @property (nonatomic, retain) UISearchBar* searchBar;
 @property (nonatomic, retain) NSDictionary* questions;
+@property (nonatomic, retain) NSDictionary* question;
 
-- (void)loadData;
-
-- (void)searchTableView;
+- (void)loadData:(NSString*)keyword;
 
 - (void)doneSearching_Clicked:(id)sender;
 
+- (void)searchTableView;
 
 @end

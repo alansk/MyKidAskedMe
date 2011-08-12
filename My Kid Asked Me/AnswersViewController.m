@@ -8,16 +8,19 @@
 
 #import "AnswersViewController.h"
 
-
 @implementation AnswersViewController
 
-/*
-// Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
+@synthesize question;
+@synthesize answers;
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
+    //   self.title = NSLocalizedString(@"Answers", @"Answers");
+    
+    
 }
-*/
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 {
@@ -48,5 +51,58 @@
 {
     [super dealloc];
 }
+
+#pragma mark - Table view data source
+
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
+{
+    // Return the number of sections.
+    return 1;
+}
+
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+{
+    return 1;
+}
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    
+    static NSString *cellIdentifier = @"QuestionCell";
+    
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier];
+    
+    if (cell == nil)
+    {
+        cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:cellIdentifier] autorelease];
+        cell.textLabel.font = [UIFont systemFontOfSize:14];
+        cell.detailTextLabel.font = [UIFont systemFontOfSize:12];
+        cell.selectionStyle = UITableViewCellSelectionStyleNone;
+        cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+        
+        cell.textLabel.lineBreakMode = UILineBreakModeWordWrap;
+        cell.textLabel.numberOfLines = 0;
+    }
+    
+   
+    
+    cell.textLabel.text = @"blah";
+    
+    return cell;
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
+    
+    NSString* cellText = @"blah";
+    UIFont* cellFont = [UIFont systemFontOfSize:14];
+    CGSize maxSize = CGSizeMake(280.0f, MAXFLOAT);
+    CGSize cellSize = [cellText sizeWithFont:cellFont constrainedToSize:maxSize lineBreakMode:UILineBreakModeWordWrap];
+    
+    return cellSize.height + 30;
+}
+
+
+
+
 
 @end

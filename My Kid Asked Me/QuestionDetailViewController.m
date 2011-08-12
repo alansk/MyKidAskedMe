@@ -75,11 +75,6 @@
     // e.g. self.myOutlet = nil;
 }
 
-- (void) viewWillDisappear:(BOOL)animated
-{    
-    [super viewWillDisappear:animated];
-    [self.navigationController popToRootViewControllerAnimated:YES];
-}
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 {

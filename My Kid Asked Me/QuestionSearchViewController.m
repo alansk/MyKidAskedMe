@@ -9,11 +9,13 @@
 #import "QuestionSearchViewController.h"
 #import "XMLReader.h"
 #import "QuestionDetailViewController.h"
+#import "AnswersViewController.h"
 
 @implementation QuestionSearchViewController
 
 @synthesize questionsTable;
 @synthesize questions;
+@synthesize question;
 @synthesize searchBar;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
@@ -39,16 +41,15 @@
 {
     [super viewDidLoad];
     
-    self.title = NSLocalizedString(@"Search", @"Search Kids' Questions");
+    //self.title = NSLocalizedString(@"Search", @"Search Kids' Questions");
     
     //search bar
     searchBar.autocorrectionType = UITextAutocorrectionTypeYes;
     searching = NO;
     letUserSelectRow = YES;
-    CGRect bounds = self.questionsTable.bounds;
-    bounds.origin.y = bounds.origin.y + 44;
-    self.questionsTable.bounds = bounds;
 }
+
+
 
 - (void)viewDidUnload
 {
@@ -67,15 +68,17 @@
 {
     [questionsTable release];
     [questions release];
+    [question release];
     [searchBar release];
     
     [super dealloc];
 }
 
-- (void)loadData
+- (void)loadData:(NSString*)keyword
 {
     // Grab some XML data 
-    NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:@"http://local.kidasked.me/questions.xml"]];
+    NSString* url = [NSString stringWithFormat:@"http://local.kidasked.me/questions/searchfor/%@/.xml",keyword];
+    NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:url]];
     
     NSError *error = nil;
     NSURLResponse *response = nil;
@@ -85,6 +88,16 @@
     
     // Parse the XML Data into an NSDictionary
     questions = [[XMLReader dictionaryForXMLData:xmlData error:&error] retain];
+    
+    id questionArray = [questions retrieveForPath:@"questions.question"];
+    // Return the number of rows in the section.
+    if([questionArray respondsToSelector:@selector(allKeys)])
+    {
+        questionCount = 1;
+    }else
+    {
+        questionCount = [questionArray count];
+    }
     
     [self.questionsTable reloadData];
 }
@@ -110,34 +123,19 @@
 
 - (void)doneSearching_Clicked:(id)sender
 {
-    
+    [self searchTableView];
 }
 
-- (void) searchTableView
+- (void)searchTableView
 {
-    NSString *searchText = searchBar.text;
-    // TODO
-}
+    [self.searchBar resignFirstResponder];
+    self.navigationItem.rightBarButtonItem = nil;
+    searching = NO;
+    letUserSelectRow = YES;
+    self.questionsTable.scrollEnabled = YES;
+    [self loadData:self.searchBar.text];
+    
 
-- (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText{
-    // empty our search dictionary
-    questions = [[NSDictionary alloc] init];
-    
-    if([searchText length] > 0)
-    {
-        searching = YES;
-        letUserSelectRow = YES;
-        self.questionsTable.scrollEnabled = YES;
-        [self searchTableView];
-        
-    }else
-    {
-        searching = NO;
-        letUserSelectRow = NO;
-        self.questionsTable.scrollEnabled = NO;        
-    }
-    
-    [self.questionsTable reloadData];
 }
 
 
@@ -151,8 +149,7 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    // Return the number of rows in the section.
-    return [[questions retrieveForPath:@"questions.question"] count];
+    return questionCount;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -175,11 +172,18 @@
     }
     
     // Get the 'status' for the relevant row
-    NSDictionary *question = [questions retrieveForPath:[NSString stringWithFormat:@"questions.question.%d", indexPath.row]];
+    NSDictionary *q = [questions retrieveForPath:[NSString stringWithFormat:@"questions.question.%d", indexPath.row]];
     
-    cell.textLabel.text = [question objectForKey:@"@question"];
+    // maybe there's just one
+    if(q == nil)
+    {
+        q = [questions retrieveForPath:@"questions.question"];
+    }
+
+    
+    cell.textLabel.text = [q objectForKey:@"@question"];
     cell.detailTextLabel.text = [NSString stringWithFormat:@"%@ answers", 
-                                 [question objectForKey:@"@explanation_count"]];
+                                 [q objectForKey:@"@explanation_count"]];
     
     return cell;
 }
@@ -187,8 +191,13 @@
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
     
     // Get the 'status' for the relevant row
-    NSDictionary *question = [questions retrieveForPath:[NSString stringWithFormat:@"questions.question.%d", indexPath.row]];
-    NSString* cellText = [question objectForKey:@"@question"];
+    NSDictionary *q = [questions retrieveForPath:[NSString stringWithFormat:@"questions.question.%d", indexPath.row]];
+    // maybe there's just one
+    if(q == nil)
+    {
+        q = [questions retrieveForPath:@"questions.question"];
+    }
+    NSString* cellText = [q objectForKey:@"@question"];
     UIFont* cellFont = [UIFont systemFontOfSize:14];
     CGSize maxSize = CGSizeMake(280.0f, MAXFLOAT);
     CGSize cellSize = [cellText sizeWithFont:cellFont constrainedToSize:maxSize lineBreakMode:UILineBreakModeWordWrap];
@@ -213,10 +222,33 @@
     // Navigation logic may go here. Create and push another view controller.
     
     QuestionDetailViewController *qDetailView = [[QuestionDetailViewController alloc] initWithNibName:@"QuestionDetailView" bundle:nil];
-    
+
     
     // Get the 'status' for the relevant row
-    NSDictionary *question = [questions retrieveForPath:[NSString stringWithFormat:@"questions.question.%d", indexPath.row]];
+    NSDictionary* q = [questions retrieveForPath:[NSString stringWithFormat:@"questions.question.%d", indexPath.row]];
+
+    NSString* questionId;
+    
+    if(question == nil)
+    {
+        question = [q retrieveForPath:@"questions.question"];
+    }
+
+    questionId = [question objectForKey:@"@id"];
+    
+    // Grab some XML data 
+    NSString* url = [NSString stringWithFormat:@"http://local.kidasked.me/questions/view/%@/.xml",questionId];
+    NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:url]];
+    
+    NSError *error = nil;
+    NSURLResponse *response = nil;
+    
+    // Synchronous isn't ideal, but simplifies the code for the Demo
+    NSData *xmlData = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
+    
+    question = [[XMLReader dictionaryForXMLData:xmlData error:&error] retain];
+    question = [questions retrieveForPath:@"questions.question"];
+    
     
     qDetailView.question = question;
     qDetailView.title = @"Answers";
@@ -224,6 +256,8 @@
     [self.navigationController pushViewController:qDetailView animated:YES];
     
     [qDetailView release];
+    
+    
 }
 
 
