@@ -98,7 +98,7 @@
 - (void)reloadData
 {
     // Grab some XML data 
-    NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:@"http://local.kidasked.me/questions/index/page:2/sort:created/direction:asc/.xml"]];
+    NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:@"http://local.kidasked.me/questions/index/page:1/sort:created/direction:asc/.xml"]];
     
     NSError *error = nil;
     NSURLResponse *response = nil;

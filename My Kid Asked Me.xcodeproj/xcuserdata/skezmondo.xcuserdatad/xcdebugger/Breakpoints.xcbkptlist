@@ -121,11 +121,25 @@
          continueAfterRunningActions = "No"
          isPathRelative = "1"
          filePath = "My Kid Asked Me/QuestionSearchViewController.m"
-         timestampString = "334776050.196169"
+         timestampString = "334823806.1975"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "256"
-         endingLineNumber = "256"
+         startingLineNumber = "257"
+         endingLineNumber = "257"
+         landmarkName = "-tableView:didSelectRowAtIndexPath:"
+         landmarkType = "5">
+      </FileBreakpoint>
+      <FileBreakpoint
+         shouldBeEnabled = "No"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         isPathRelative = "1"
+         filePath = "My Kid Asked Me/QuestionSearchViewController.m"
+         timestampString = "334824109.476528"
+         startingColumnNumber = "9223372036854775807"
+         endingColumnNumber = "9223372036854775807"
+         startingLineNumber = "224"
+         endingLineNumber = "224"
          landmarkName = "-tableView:didSelectRowAtIndexPath:"
          landmarkType = "5">
       </FileBreakpoint>

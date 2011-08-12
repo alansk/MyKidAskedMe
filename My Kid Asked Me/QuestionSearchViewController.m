@@ -77,7 +77,7 @@
 - (void)loadData:(NSString*)keyword
 {
     // Grab some XML data 
-    NSString* url = [NSString stringWithFormat:@"http://local.kidasked.me/questions/searchfor/%@/.xml",keyword];
+    NSString* url = [NSString stringWithFormat:@"http://local.kidasked.me/questions/searchfor/%@/page:1/sort:created/direction:asc/.xml",keyword];
     NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:url]];
     
     NSError *error = nil;
@@ -229,12 +229,12 @@
 
     NSString* questionId;
     
-    if(question == nil)
+    if(q == nil)
     {
-        question = [q retrieveForPath:@"questions.question"];
+        q = [questions retrieveForPath:@"questions.question"];
     }
 
-    questionId = [question objectForKey:@"@id"];
+    questionId = [q objectForKey:@"@id"];
     
     // Grab some XML data 
     NSString* url = [NSString stringWithFormat:@"http://local.kidasked.me/questions/view/%@/.xml",questionId];
@@ -247,10 +247,10 @@
     NSData *xmlData = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
     
     question = [[XMLReader dictionaryForXMLData:xmlData error:&error] retain];
-    question = [questions retrieveForPath:@"questions.question"];
+    q = [question retrieveForPath:@"question"];
     
     
-    qDetailView.question = question;
+    qDetailView.question = q;
     qDetailView.title = @"Answers";
     
     [self.navigationController pushViewController:qDetailView animated:YES];
