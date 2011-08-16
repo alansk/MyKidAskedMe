@@ -10,12 +10,16 @@
 #import "XMLReader.h"
 #import "QuestionDetailViewController.h"
 #import "QuestionSearchViewController.h"
+#import "ASIHTTPRequest.h"
 
 
 @implementation QuestionsViewController
 
 @synthesize questionsTable;
 @synthesize questions;
+//@synthesize progressView;
+
+int const perPage = 20;
 
 // Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
 - (void)viewDidLoad
@@ -23,7 +27,7 @@
     [super viewDidLoad];
 
     self.title = NSLocalizedString(@"Questions", @"All Kids' Questions");
-  
+    howMany = perPage;
     // button bar
     UIToolbar* tools = [[UIToolbar alloc] initWithFrame:CGRectMake(0, 0, 88, 44.01)];
     tools.translucent = true;
@@ -97,17 +101,28 @@
 
 - (void)reloadData
 {
-    // Grab some XML data 
-    NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:@"http://local.kidasked.me/questions/index/page:1/sort:created/direction:asc/.xml"]];
+    // Grab some XML data
+    NSString* url = [NSString stringWithFormat:@"http://local.kidasked.me/questions/index/page:1/limit:%d/sort:created/direction:asc/.xml",howMany];
     
-    NSError *error = nil;
-    NSURLResponse *response = nil;
+    ASIHTTPRequest *request = [ASIHTTPRequest requestWithURL:[NSURL URLWithString:url]];
     
-    // Synchronous isn't ideal, but simplifies the code for the Demo
-    NSData *xmlData = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
+    //[request setDownloadProgressDelegate:progressView];
+    [request setDelegate:self];
+    [request startAsynchronous];
+    
+}
+
+
+- (void)requestFinished:(ASIHTTPRequest *)request
+{
+    // Use when fetching text data
+    NSString *responseString = [request responseString];
+    
+    // Use when fetching binary data
+   // NSData *responseData = [request responseData];
     
     // Parse the XML Data into an NSDictionary
-    questions = [[XMLReader dictionaryForXMLData:xmlData error:&error] retain];
+    questions = [[XMLReader dictionaryForXMLString:responseString error:nil] retain];
     
     id questionArray = [questions retrieveForPath:@"questions.question"];
     // Return the number of rows in the section.
@@ -121,6 +136,10 @@
     [self.questionsTable reloadData];
 }
 
+- (void)requestFailed:(ASIHTTPRequest *)request
+{
+    //NSError *error = [request error];
+}
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 {
@@ -151,6 +170,7 @@
 {
     [questionsTable release];
     [questions release];
+  //  [progressView release];
     
     [super dealloc];
 }
@@ -168,7 +188,7 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return questionCount;
+    return questionCount+1;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -181,89 +201,121 @@
     if (cell == nil)
     {
         cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:cellIdentifier] autorelease];
-        cell.textLabel.font = [UIFont systemFontOfSize:14];
-        cell.detailTextLabel.font = [UIFont systemFontOfSize:12];
+        cell.textLabel.font = [UIFont boldSystemFontOfSize:14];
+        cell.detailTextLabel.font = [UIFont boldSystemFontOfSize:12];
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
-        cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+        cell.accessoryType = UITableViewCellAccessoryDetailDisclosureButton;
         
         cell.textLabel.lineBreakMode = UILineBreakModeWordWrap;
         cell.textLabel.numberOfLines = 0;
     }
     
-    // Get the 'status' for the relevant row
-    NSDictionary *question = [questions retrieveForPath:[NSString stringWithFormat:@"questions.question.%d", indexPath.row]];
-    
     NSString* questionText = @"";
     NSString* questionDetailText = @"";
     
-    /*if(question == nil && indexPath.row == questionCount)
+    if(indexPath.row == questionCount)
     {
-        questionText = @"Load more...";
+        questionText = [NSString stringWithFormat:@"Load %d more...", perPage];
+        cell.textLabel.font = [UIFont boldSystemFontOfSize:16];
+        cell.textLabel.textColor = [UIColor orangeColor];
         cell.accessoryType = UITableViewCellAccessoryNone;
-            
-    }*/
-    
-    if(question == nil && indexPath.row < questionCount)
+        
+    }else
     {
-        question = [questions retrieveForPath:@"questions.question"];
-    }
     
-    if(question != nil)
-    {
+        // Get the 'status' for the relevant row
+        NSDictionary *question = [questions retrieveForPath:[NSString stringWithFormat:@"questions.question.%d", indexPath.row]];
+        
+        if(question == nil)
+        {
+            question = [questions retrieveForPath:@"questions.question"];
+        }
+        
         questionText = [question objectForKey:@"@question"];
-        questionDetailText = [NSString stringWithFormat:@"%@ answers", 
+        cell.textLabel.textColor = [UIColor blackColor];
+        cell.accessoryType = UITableViewCellAccessoryDetailDisclosureButton;
+        cell.textLabel.font = [UIFont boldSystemFontOfSize:14];
+        questionDetailText = [NSString stringWithFormat:@"Score: %@  Answers: %@", 
+                              [question objectForKey:@"@score"],
                               [question objectForKey:@"@explanation_count"]];
+    
     }
-
+     
     cell.textLabel.text = questionText;
     cell.detailTextLabel.text = questionDetailText;
+    
     
     return cell;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
 
-    // Get the 'status' for the relevant row
-    NSDictionary *question = [questions retrieveForPath:[NSString stringWithFormat:@"questions.question.%d", indexPath.row]];
-    if(question == nil && indexPath.row < questionCount)
+    if(indexPath.row == questionCount)
     {
-        question = [questions retrieveForPath:@"questions.question"];
+        return 50;
+    }else
+    {
+        // Get the 'status' for the relevant row
+        NSDictionary *question = [questions retrieveForPath:[NSString stringWithFormat:@"questions.question.%d", indexPath.row]];
+        if(question == nil && indexPath.row < questionCount)
+        {
+            question = [questions retrieveForPath:@"questions.question"];
+        }
+        NSString* cellText = [question objectForKey:@"@question"];
+        UIFont* cellFont = [UIFont boldSystemFontOfSize:15];
+        CGSize maxSize = CGSizeMake(280.0f, MAXFLOAT);
+        CGSize cellSize = [cellText sizeWithFont:cellFont constrainedToSize:maxSize lineBreakMode:UILineBreakModeWordWrap];
+        
+        return cellSize.height + 40;
     }
-    NSString* cellText = [question objectForKey:@"@question"];
-    UIFont* cellFont = [UIFont systemFontOfSize:14];
-    CGSize maxSize = CGSizeMake(280.0f, MAXFLOAT);
-    CGSize cellSize = [cellText sizeWithFont:cellFont constrainedToSize:maxSize lineBreakMode:UILineBreakModeWordWrap];
-    
-    return cellSize.height + 30;
 }
 
 
 
 #pragma mark - Table view delegate
 
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+- (void)tableView:(UITableView *)tableView accessoryButtonTappedForRowWithIndexPath:(NSIndexPath *)indexPath
 {
-    // Navigation logic may go here. Create and push another view controller.
-    
-    QuestionDetailViewController *qDetailView = [[QuestionDetailViewController alloc] initWithNibName:@"QuestionDetailView" bundle:nil];
-       
-    
-    // Get the 'status' for the relevant row
-    NSDictionary *question = [questions retrieveForPath:[NSString stringWithFormat:@"questions.question.%d", indexPath.row]];
+    [self itemClicked:indexPath];
+}
 
-    if(question == nil && indexPath.row < questionCount)
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{  
+    [self itemClicked:indexPath];
+}
+
+- (void)itemClicked:(NSIndexPath *)indexPath
+{
+    if(indexPath.row == questionCount)
     {
-        question = [questions retrieveForPath:@"questions.question"];
-    }
-    
-    if(question != nil)
+        howMany = howMany + 2;
+        [self reloadData];
+        
+    }else 
     {
-        qDetailView.question = question;
-        qDetailView.title = @"Answers";
-    
-        [self.navigationController pushViewController:qDetailView animated:YES];
-    
-        [qDetailView release];
+        
+        // Get the 'status' for the relevant row
+        NSDictionary *question = [questions retrieveForPath:[NSString stringWithFormat:@"questions.question.%d", indexPath.row]];
+        
+        
+        if(question == nil)
+        {
+            question = [questions retrieveForPath:@"questions.question"];
+        }
+        
+        // Navigation logic may go here. Create and push another view controller.
+        
+        QuestionDetailViewController *qDetailView = [[QuestionDetailViewController alloc] initWithNibName:@"QuestionDetailView" bundle:nil];
+        
+        if(question != nil)
+        {
+            qDetailView.question = question;
+            qDetailView.title = @"Answers";
+            
+            [self.navigationController pushViewController:qDetailView animated:YES];
+            
+            [qDetailView release];
+        }
     }
 }
 

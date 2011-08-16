@@ -11,17 +11,23 @@
 
 @interface QuestionsViewController : UIViewController 
         <UITableViewDataSource, UITableViewDelegate> {
-    IBOutlet UITableView* questionsTable;
+            IBOutlet UITableView* questionsTable;
+            //IBOutlet UIProgressView* progressView;
     
-    NSDictionary* questions;
-    int questionCount;
+            NSDictionary* questions;
+            int questionCount;
+            int howMany;
 
 }
 
 @property (nonatomic, retain) UITableView* questionsTable;
 @property (nonatomic, retain) NSDictionary* questions;
+//@property (nonatomic, retain) UIProgressView* progressView;
+
+extern int const perPage;
 
 - (void)reloadData;
+- (void)itemClicked:(NSIndexPath *)indexPath;
 
 
 @end

@@ -224,30 +224,13 @@
     QuestionDetailViewController *qDetailView = [[QuestionDetailViewController alloc] initWithNibName:@"QuestionDetailView" bundle:nil];
 
     
-    // Get the 'status' for the relevant row
+    // Get for the relevant row
     NSDictionary* q = [questions retrieveForPath:[NSString stringWithFormat:@"questions.question.%d", indexPath.row]];
-
-    NSString* questionId;
     
     if(q == nil)
     {
         q = [questions retrieveForPath:@"questions.question"];
     }
-
-    questionId = [q objectForKey:@"@id"];
-    
-    // Grab some XML data 
-    NSString* url = [NSString stringWithFormat:@"http://local.kidasked.me/questions/view/%@/.xml",questionId];
-    NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:url]];
-    
-    NSError *error = nil;
-    NSURLResponse *response = nil;
-    
-    // Synchronous isn't ideal, but simplifies the code for the Demo
-    NSData *xmlData = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
-    
-    question = [[XMLReader dictionaryForXMLData:xmlData error:&error] retain];
-    q = [question retrieveForPath:@"question"];
     
     
     qDetailView.question = q;
