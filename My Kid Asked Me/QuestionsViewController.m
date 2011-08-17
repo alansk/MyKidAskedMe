@@ -30,7 +30,7 @@ int const perPage = 20;
     howMany = perPage;
     // button bar
     UIToolbar* tools = [[UIToolbar alloc] initWithFrame:CGRectMake(0, 0, 88, 44.01)];
-    tools.translucent = true;
+   
     tools.tintColor = self.navigationController.navigationBar.tintColor;
     NSMutableArray* buttons = [[NSMutableArray alloc] initWithCapacity:2];
     
@@ -84,6 +84,16 @@ int const perPage = 20;
 
 - (void) addClick:(id)sender
 {
+
+}
+
+- (void) voteClick:(id)sender
+{
+    UIButton* button = (UIButton*)sender;
+    int index = button.tag;
+    
+    UITableViewCell* cell = [questionsTable cellForRowAtIndexPath:[NSIndexPath indexPathForRow:index inSection:0]];
+    [cell.imageView setImage:[UIImage imageNamed:@"thumbsupdone.png"]];
 
 }
 
@@ -188,11 +198,17 @@ int const perPage = 20;
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return questionCount+1;
+    if(questionCount>0)
+    {
+        return questionCount+1;
+    }else{
+        return 0;
+    }
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    
     
     static NSString *cellIdentifier = @"QuestionCell";
     
@@ -204,7 +220,7 @@ int const perPage = 20;
         cell.textLabel.font = [UIFont boldSystemFontOfSize:14];
         cell.detailTextLabel.font = [UIFont boldSystemFontOfSize:12];
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
-        cell.accessoryType = UITableViewCellAccessoryDetailDisclosureButton;
+        cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
         
         cell.textLabel.lineBreakMode = UILineBreakModeWordWrap;
         cell.textLabel.numberOfLines = 0;
@@ -213,36 +229,51 @@ int const perPage = 20;
     NSString* questionText = @"";
     NSString* questionDetailText = @"";
     
-    if(indexPath.row == questionCount)
-    {
-        questionText = [NSString stringWithFormat:@"Load %d more...", perPage];
-        cell.textLabel.font = [UIFont boldSystemFontOfSize:16];
-        cell.textLabel.textColor = [UIColor orangeColor];
-        cell.accessoryType = UITableViewCellAccessoryNone;
-        
-    }else
-    {
     
-        // Get the 'status' for the relevant row
-        NSDictionary *question = [questions retrieveForPath:[NSString stringWithFormat:@"questions.question.%d", indexPath.row]];
-        
-        if(question == nil)
+    if(questionCount>0)
+    {
+        if(indexPath.row == questionCount)
         {
-            question = [questions retrieveForPath:@"questions.question"];
-        }
+            questionText = [NSString stringWithFormat:@"Load %d more...", perPage];
+            cell.textLabel.font = [UIFont boldSystemFontOfSize:16];
+            cell.textLabel.textColor = [UIColor orangeColor];
+            cell.accessoryType = UITableViewCellAccessoryNone;
+            
+        }else
+        {
         
-        questionText = [question objectForKey:@"@question"];
-        cell.textLabel.textColor = [UIColor blackColor];
-        cell.accessoryType = UITableViewCellAccessoryDetailDisclosureButton;
-        cell.textLabel.font = [UIFont boldSystemFontOfSize:14];
-        questionDetailText = [NSString stringWithFormat:@"Score: %@  Answers: %@", 
-                              [question objectForKey:@"@score"],
-                              [question objectForKey:@"@explanation_count"]];
-    
+            // Get the 'status' for the relevant row
+            NSDictionary *question = [questions retrieveForPath:[NSString stringWithFormat:@"questions.question.%d", indexPath.row]];
+            
+            if(question == nil)
+            {
+                question = [questions retrieveForPath:@"questions.question"];
+            }
+            
+            questionText = [question objectForKey:@"@question"];
+            cell.textLabel.textColor = [UIColor blackColor];
+            cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+            cell.textLabel.font = [UIFont boldSystemFontOfSize:14];
+            questionDetailText = [NSString stringWithFormat:@"Score: %@  Answers: %@", 
+                                  [question objectForKey:@"@score"],
+                                  [question objectForKey:@"@explanation_count"]];
+            
+            UIImage* img = [UIImage imageNamed:@"thumbsup.png"];
+            UIButton* button = [UIButton buttonWithType:UIButtonTypeCustom];
+            [button setTag:indexPath.row];
+            [button setFrame:CGRectMake(0, 0, 30, 30)];
+            [button setUserInteractionEnabled:TRUE];
+            [button addTarget:self action:@selector(voteClick:) forControlEvents:UIControlEventTouchUpInside];
+            [cell.imageView setImage:img];
+            [cell.imageView setUserInteractionEnabled:TRUE];
+            [cell.imageView addSubview:button];
+            [cell.imageView bringSubviewToFront:button];
+        }
     }
      
     cell.textLabel.text = questionText;
     cell.detailTextLabel.text = questionDetailText;
+    
     
     
     return cell;
