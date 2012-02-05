@@ -15,6 +15,7 @@
             //IBOutlet UIProgressView* progressView;
     
             NSDictionary* questions;
+            NSMutableDictionary* votes;
             int questionCount;
             int howMany;
 
@@ -22,7 +23,7 @@
 
 @property (nonatomic, retain) UITableView* questionsTable;
 @property (nonatomic, retain) NSDictionary* questions;
-//@property (nonatomic, retain) UIProgressView* progressView;
+@property (nonatomic, retain) NSMutableDictionary* votes;
 
 extern int const perPage;
 

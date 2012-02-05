@@ -17,7 +17,7 @@
 
 @synthesize questionsTable;
 @synthesize questions;
-//@synthesize progressView;
+@synthesize votes;
 
 int const perPage = 20;
 
@@ -25,13 +25,21 @@ int const perPage = 20;
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
+    votes = [[[NSMutableDictionary alloc] init] retain];
 
     self.title = NSLocalizedString(@"Questions", @"All Kids' Questions");
     howMany = perPage;
+    
+    [questionsTable setBackgroundColor:[UIColor colorWithRed:1.0 green:0.95 blue:0.9 alpha:0.5]];
+    [questionsTable setSeparatorColor:[UIColor colorWithRed:0.9 green:0.8 blue:0.7 alpha:1]];
+    
     // button bar
+    //UISegmentedControl* tools2 = [[UISegmentedControl alloc] initWithItems:<#(NSArray *)#>
+    
     UIToolbar* tools = [[UIToolbar alloc] initWithFrame:CGRectMake(0, 0, 88, 44.01)];
    
-    tools.tintColor = self.navigationController.navigationBar.tintColor;
+    [tools setBarStyle:UIBarStyleBlackOpaque];
     NSMutableArray* buttons = [[NSMutableArray alloc] initWithCapacity:2];
     
     // buttons
@@ -92,9 +100,25 @@ int const perPage = 20;
     UIButton* button = (UIButton*)sender;
     int index = button.tag;
     
-    UITableViewCell* cell = [questionsTable cellForRowAtIndexPath:[NSIndexPath indexPathForRow:index inSection:0]];
-    [cell.imageView setImage:[UIImage imageNamed:@"thumbsupdone.png"]];
+    // Get the 'status' for the relevant row
+    NSDictionary *question = [questions retrieveForPath:[NSString stringWithFormat:@"questions.question.%d", index]];
+    
+    if(question == nil)
+    {
+        question = [questions retrieveForPath:@"questions.question"];
+    }
 
+    NSString* qid = [question objectForKey:@"@id"];
+
+    if([votes objectForKey:qid] == @"1")
+    {
+        [votes setValue:@"-1" forKey:qid];
+    }else
+    {
+        [votes setValue:@"1" forKey:qid];
+    }
+
+    [self.questionsTable reloadData];
 }
 
 - (void) searchClick:(id)sender
@@ -112,7 +136,7 @@ int const perPage = 20;
 - (void)reloadData
 {
     // Grab some XML data
-    NSString* url = [NSString stringWithFormat:@"http://local.kidasked.me/questions/index/page:1/limit:%d/sort:created/direction:asc/.xml",howMany];
+    NSString* url = [NSString stringWithFormat:@"http://kidasked.me/questions/index/page:1/limit:%d/sort:created/direction:asc/.xml",howMany];
     
     ASIHTTPRequest *request = [ASIHTTPRequest requestWithURL:[NSURL URLWithString:url]];
     
@@ -127,9 +151,7 @@ int const perPage = 20;
 {
     // Use when fetching text data
     NSString *responseString = [request responseString];
-    
-    // Use when fetching binary data
-   // NSData *responseData = [request responseData];
+
     
     // Parse the XML Data into an NSDictionary
     questions = [[XMLReader dictionaryForXMLString:responseString error:nil] retain];
@@ -180,7 +202,7 @@ int const perPage = 20;
 {
     [questionsTable release];
     [questions release];
-  //  [progressView release];
+    [votes release];
     
     [super dealloc];
 }
@@ -217,14 +239,13 @@ int const perPage = 20;
     if (cell == nil)
     {
         cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:cellIdentifier] autorelease];
-        cell.textLabel.font = [UIFont boldSystemFontOfSize:14];
-        cell.detailTextLabel.font = [UIFont boldSystemFontOfSize:12];
-        cell.selectionStyle = UITableViewCellSelectionStyleNone;
-        cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
         
-        cell.textLabel.lineBreakMode = UILineBreakModeWordWrap;
-        cell.textLabel.numberOfLines = 0;
     }
+    
+    cell.detailTextLabel.font = [UIFont boldSystemFontOfSize:12];
+    cell.selectionStyle = UITableViewCellSelectionStyleNone;
+    cell.textLabel.lineBreakMode = UILineBreakModeWordWrap;
+    cell.textLabel.numberOfLines = 0;
     
     NSString* questionText = @"";
     NSString* questionDetailText = @"";
@@ -251,20 +272,50 @@ int const perPage = 20;
             }
             
             questionText = [question objectForKey:@"@question"];
-            cell.textLabel.textColor = [UIColor blackColor];
+            NSString* qid = [question objectForKey:@"@id"];
+            cell.textLabel.textColor = [UIColor orangeColor];
             cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-            cell.textLabel.font = [UIFont boldSystemFontOfSize:14];
+            cell.textLabel.font = [UIFont fontWithName:@"ArialRoundedMTBold" size:14]; 
+            
+            NSString* score = [question objectForKey:@"@score"];
+            int scoreValue = score.intValue;
+
+            
+            if(![votes objectForKey:qid] 
+               || [votes objectForKey:qid] != @"1")
+            {
+                UIImage* img = [UIImage imageNamed:@"thumbsup.png"];
+                [cell.imageView setImage:img];
+                if(![votes objectForKey:qid])
+                {
+                    [votes setObject:@"0" forKey:qid];
+                }
+                
+                if([votes objectForKey:qid] == @"-1")
+                {
+                    [votes setObject:@"0" forKey:qid];
+                    scoreValue--;
+                    [question setValue:[NSString stringWithFormat:@"%d", scoreValue] forKey:@"@score"];
+                }
+                
+            }else
+            {
+                UIImage* img = [UIImage imageNamed:@"thumbsupdone.png"];
+                [cell.imageView setImage:img];
+                scoreValue++;
+                [question setValue:[NSString stringWithFormat:@"%d", scoreValue] forKey:@"@score"];
+            }
+            
             questionDetailText = [NSString stringWithFormat:@"Score: %@  Answers: %@", 
                                   [question objectForKey:@"@score"],
                                   [question objectForKey:@"@explanation_count"]];
             
-            UIImage* img = [UIImage imageNamed:@"thumbsup.png"];
+            
             UIButton* button = [UIButton buttonWithType:UIButtonTypeCustom];
             [button setTag:indexPath.row];
             [button setFrame:CGRectMake(0, 0, 30, 30)];
             [button setUserInteractionEnabled:TRUE];
             [button addTarget:self action:@selector(voteClick:) forControlEvents:UIControlEventTouchUpInside];
-            [cell.imageView setImage:img];
             [cell.imageView setUserInteractionEnabled:TRUE];
             [cell.imageView addSubview:button];
             [cell.imageView bringSubviewToFront:button];
